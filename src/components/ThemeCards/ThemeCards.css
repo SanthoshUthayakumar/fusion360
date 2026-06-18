@@ -1,0 +1,378 @@
+/* ═══════════════════════════════════════════
+   ThemeCards — Horizontal scroll (all sizes)
+   Pink accent replaces orange everywhere
+═══════════════════════════════════════════ */
+
+.tc {
+  background: var(--color-bg);
+  position: relative;
+}
+
+/* ── Section Header ─────────────────────── */
+.tc__header {
+  text-align: center;
+  padding: 6rem 1.5rem 3rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.tc__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+  margin: 0.5rem 0 1rem;
+}
+
+.tc__subheading {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #666;
+}
+
+/* ══════════════════════════════════════════
+   Pin wrapper — full viewport height,
+   clips the horizontally-moving track
+══════════════════════════════════════════ */
+.tc__pin-wrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Horizontal track ───────────────────── */
+.tc__track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  gap: 1.5rem;
+  padding: 3rem 2rem;
+  width: max-content;
+  will-change: transform;
+}
+
+/* ══════════════════════════════════════════
+   Card — desktop default
+══════════════════════════════════════════ */
+.tc__card {
+  flex: 0 0 auto;
+  width: min(780px, 78vw);
+  height: min(600px, calc(100vh - 7rem));
+  border-radius: var(--radius-card);
+  border: var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-brutal-lg);
+  background: var(--color-secondary);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ── Image half ─────────────────────────── */
+.tc__image-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.tc__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.tc__card:hover .tc__image {
+  transform: scale(1.04);
+}
+
+.tc__image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(17, 17, 17, 0.35) 0%,
+    transparent 55%,
+    color-mix(in srgb, var(--card-accent, #E91E8C) 35%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+.tc__tag {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  background: rgba(17, 17, 17, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 0.32rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* ── Content half ───────────────────────── */
+.tc__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.5rem 2.75rem;
+  background: var(--color-secondary);
+  border-left: var(--border);
+  gap: 0.85rem;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.tc__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.tc__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.5vw, 3.6rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+}
+
+.tc__desc {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.72;
+  color: #505050;
+}
+
+.tc__services {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+}
+
+.tc__service-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.tc__service-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tc__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  background: var(--card-accent, var(--color-accent));
+  padding: 0.72rem 1.5rem;
+  border-radius: 4px;
+  border: 2px solid var(--card-accent, var(--color-accent));
+  box-shadow: 4px 4px 0px var(--color-primary);
+  transition: all var(--transition);
+  margin-top: 0.25rem;
+}
+
+.tc__cta:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--card-accent, var(--color-accent));
+}
+
+.tc__cta svg {
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+.tc__cta:hover svg { transform: translateX(4px); }
+
+/* ── Scroll hint ────────────────────────── */
+.tc__scroll-hint {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #aaa;
+  pointer-events: none;
+  z-index: 2;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.6; transform: translateX(0); }
+  50%       { opacity: 1;   transform: translateX(4px); }
+}
+
+/* ══════════════════════════════════════════
+   TABLET — 769px to 1023px
+══════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .tc__track {
+    gap: 1.25rem;
+    padding: 2.5rem 1.75rem;
+  }
+
+  .tc__card {
+    width: min(640px, 78vw);
+    height: min(560px, calc(100vh - 5rem));
+  }
+
+  .tc__content {
+    padding: 2rem 2.25rem;
+    gap: 0.7rem;
+  }
+
+  .tc__title { font-size: 2.2rem; }
+  .tc__desc  { font-size: 0.84rem; }
+}
+
+/* ══════════════════════════════════════════
+   MOBILE — ≤ 768px
+   Fixed-pixel card height (NOT tied to 100vh)
+   so the card stays a sensible, compact size
+   regardless of phone screen height. This is
+   what removes both the "too big" card and
+   the leftover whitespace — the track simply
+   centers a correctly-sized card, nothing
+   stretches to fill the pinned section.
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .tc__header {
+    padding: 4rem 1.25rem 2.25rem;
+  }
+
+  .tc__heading { font-size: clamp(2.5rem, 9vw, 4rem); }
+
+  .tc__pin-wrap {
+    height: 100vh;
+  }
+
+  .tc__track {
+    gap: 1rem;
+    padding: 0 1rem;
+    align-items: center;
+  }
+
+  /* Vertical layout, fixed compact height */
+  .tc__card {
+    width: min(300px, 80vw);
+    height: 460px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 180px 1fr;
+    border-radius: 20px;
+  }
+
+  .tc__image-wrap {
+    border-radius: 0;
+  }
+
+  .tc__content {
+    border-left: none;
+    border-top: var(--border);
+    padding: 1.25rem 1.4rem;
+    gap: 0.55rem;
+    overflow-y: auto;
+    justify-content: flex-start;
+  }
+
+  .tc__title { font-size: 1.7rem; }
+
+  .tc__desc {
+    font-size: 0.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tc__services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.28rem 0.5rem;
+  }
+
+  .tc__service-item { font-size: 0.7rem; }
+
+  .tc__cta {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.74rem;
+    padding: 0.65rem 1rem;
+    margin-top: 0.2rem;
+  }
+
+  .tc__scroll-hint {
+    bottom: 1.1rem;
+    right: 1.1rem;
+    font-size: 0.6rem;
+  }
+}
+
+/* ── Tiny phones ≤ 480px ───────────────── */
+@media (max-width: 480px) {
+  .tc__card {
+    width: min(270px, 82vw);
+    height: 430px;
+    grid-template-rows: 150px 1fr;
+  }
+
+  .tc__title { font-size: 1.5rem; }
+
+  .tc__services {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── 375px ─────────────────────────────── */
+@media (max-width: 375px) {
+  .tc__card {
+    width: min(250px, 84vw);
+    height: 400px;
+    grid-template-rows: 130px 1fr;
+  }
+
+  .tc__content { padding: 1.05rem 1.1rem; gap: 0.45rem; }
+  .tc__title  { font-size: 1.35rem; }
+  .tc__desc   { -webkit-line-clamp: 2; }
+}
+
+/* ── 320px ─────────────────────────────── */
+@media (max-width: 320px) {
+  .tc__card {
+    width: 86vw;
+    height: 380px;
+    grid-template-rows: 120px 1fr;
+  }
+  .tc__title { font-size: 1.2rem; }
+}

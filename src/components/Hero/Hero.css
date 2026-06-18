@@ -1,0 +1,262 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 580px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform;
+}
+
+.hero__video {
+  width: 100%;
+  height: 115%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    160deg,
+    rgba(17, 17, 17, 0.8) 0%,
+    rgba(17, 17, 17, 0.55) 50%,
+    rgba(17, 17, 17, 0.72) 100%
+  );
+}
+
+.hero__noise {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 0 1.25rem;
+  max-width: 960px;
+  width: 100%;
+  will-change: transform, opacity;
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+}
+
+.hero__title {
+  font-family: var(--font-heading);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.hero__title-line {
+  display: block;
+  font-size: clamp(5rem, 19vw, 16rem);
+  color: var(--color-secondary);
+  will-change: transform, opacity;
+}
+
+.hero__title-accent {
+  color: var(--color-accent);
+}
+
+.hero__tagline {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 2.5vw, 1.35rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.78);
+  letter-spacing: 0.05em;
+  margin-bottom: 2.5rem;
+  font-style: italic;
+}
+
+/* Buttons */
+.hero__buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 0.825rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.875rem 2rem;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  transition: all var(--transition);
+  min-width: 150px;
+}
+
+.hero__btn--primary {
+  background: var(--color-cta);
+  color: var(--color-secondary);
+  border-color: var(--color-cta);
+  box-shadow: 4px 4px 0px rgba(13, 148, 136, 0.45);
+}
+.hero__btn--primary:hover {
+  background: transparent;
+  color: var(--color-cta);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px rgba(13, 148, 136, 0.45);
+}
+
+.hero__btn--outline {
+  background: transparent;
+  color: var(--color-secondary);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 4px 4px 0px rgba(255,255,255,0.12);
+}
+.hero__btn--outline:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px rgba(255,107,53,0.28);
+}
+
+/* Socials row */
+.hero__socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.hero__social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: 6px;
+  color: var(--color-secondary);
+  transition: all var(--transition);
+}
+.hero__social:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+.hero__whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  background: #25D366;
+  color: var(--color-secondary);
+  border: 2px solid #25D366;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.hero__whatsapp:hover {
+  background: transparent;
+  color: #25D366;
+  transform: translateY(-2px);
+}
+
+/* Scroll indicator */
+.hero__scroll {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.hero__scroll-text {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.hero__logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.hero__logo {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  object-fit: contain;
+  will-change: transform, opacity;
+}
+
+.hero__scroll-arrow { will-change: transform; }
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 768px) {
+  .hero__logo { max-width: 360px; }
+  .hero__btn { min-width: 130px; padding: 0.78rem 1.6rem; font-size: 0.78rem; }
+  .hero__buttons { gap: 0.75rem; }
+  .hero__tagline { margin-bottom: 2rem; }
+  .hero__socials { gap: 0.55rem; }
+}
+
+@media (max-width: 480px) {
+  .hero__content { padding: 0 1rem; }
+  .hero__eyebrow { font-size: 0.6rem; margin-bottom: 0.75rem; }
+  .hero__logo { max-width: 280px; }
+  .hero__tagline { font-size: 0.88rem; margin-bottom: 1.75rem; }
+  .hero__btn { min-width: 120px; padding: 0.7rem 1.35rem; font-size: 0.75rem; }
+  .hero__social { width: 36px; height: 36px; }
+  .hero__whatsapp { font-size: 0.74rem; padding: 0.5rem 1rem; }
+}
+
+@media (max-width: 375px) {
+  .hero__logo { max-width: 240px; }
+  .hero__buttons { flex-direction: column; align-items: center; }
+  .hero__btn { width: 100%; max-width: 260px; }
+  .hero__whatsapp { font-size: 0.7rem; }
+}
+
+@media (max-width: 320px) {
+  .hero__logo { max-width: 200px; }
+  .hero__tagline { font-size: 0.8rem; }
+}
