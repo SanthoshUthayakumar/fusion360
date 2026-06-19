@@ -123,11 +123,15 @@ const CARDS = [
   },
 ]
 
+
 export default function ThemeCards() {
   const sectionRef = useRef(null)
   const pinWrapRef = useRef(null)
   const trackRef = useRef(null)
   const headerRef = useRef(null)
+  const cardRefs = useRef([])
+  const progressFillRef = useRef(null)
+  const progressLabelRef = useRef(null)
 
   useEffect(() => {
     // Header fade in
@@ -146,7 +150,8 @@ export default function ThemeCards() {
       }
     )
 
-    // Horizontal scroll — all screen sizes
+    const cards = cardRefs.current
+
     const setupHorizontal = () => {
       const track = trackRef.current
       const pinWrap = pinWrapRef.current
@@ -163,6 +168,39 @@ export default function ThemeCards() {
 
       if (moveDistance <= 0) return
 
+      // Helper: scale/dim cards based on distance from viewport center
+      const updateActiveCard = () => {
+        const wrapRect = pinWrap.getBoundingClientRect()
+        const wrapCenter = wrapRect.left + wrapRect.width / 2
+
+        cards.forEach((card) => {
+          if (!card) return
+          const cardRect = card.getBoundingClientRect()
+          const cardCenter = cardRect.left + cardRect.width / 2
+          const distance = Math.abs(wrapCenter - cardCenter)
+          const maxDistance = wrapRect.width * 0.75
+          const proximity = gsap.utils.clamp(0, 1, 1 - distance / maxDistance)
+
+          gsap.to(card, {
+            scale: gsap.utils.interpolate(0.92, 1, proximity),
+            opacity: gsap.utils.interpolate(0.55, 1, proximity),
+            duration: 0.3,
+            ease: 'none',
+            overwrite: 'auto',
+          })
+
+          const glow = card.querySelector('.tc__card-glow')
+          if (glow) {
+            gsap.to(glow, {
+              opacity: proximity > 0.85 ? 1 : 0,
+              duration: 0.3,
+              overwrite: 'auto',
+            })
+          }
+        })
+      }
+
+      // Main horizontal-scroll tween with progress bar + active-card updates
       gsap.to(track, {
         x: -moveDistance,
         ease: 'none',
@@ -174,11 +212,45 @@ export default function ThemeCards() {
           end: () => `+=${totalScrollWidth}`,
           invalidateOnRefresh: true,
           anticipatePin: 1,
+          onUpdate: (self) => {
+            if (progressFillRef.current) {
+              gsap.set(progressFillRef.current, { scaleX: self.progress })
+            }
+            const activeIndex = Math.min(
+              CARDS.length - 1,
+              Math.round(self.progress * (CARDS.length - 1))
+            )
+            if (progressLabelRef.current) {
+              progressLabelRef.current.textContent = `${String(
+                activeIndex + 1
+              ).padStart(2, '0')} / ${String(CARDS.length).padStart(2, '0')}`
+            }
+            updateActiveCard()
+          },
+          onRefresh: updateActiveCard,
         },
+      })
+
+      updateActiveCard()
+
+      // One-time entrance reveal for each card's inner content
+      cards.forEach((card) => {
+        if (!card) return
+        const content = card.querySelectorAll(
+          '.tc__subtitle, .tc__title, .tc__desc, .tc__service-item, .tc__cta'
+        )
+        gsap.set(content, { opacity: 0, y: 16 })
+        gsap.to(content, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: 'power2.out',
+          delay: 0.3,
+        })
       })
     }
 
-    // Small delay so fonts/images have loaded and widths are accurate
     const timer = setTimeout(setupHorizontal, 100)
 
     return () => {
@@ -193,14 +265,21 @@ export default function ThemeCards() {
       <div ref={headerRef} className="tc__header">
         <span className="section-label">Offline Marketing & Brand Activations</span>
         <h2 className="tc__heading">Transform Visibility Into Results</h2>
-        
       </div>
 
       {/* Pinned horizontal scroll wrapper */}
       <div ref={pinWrapRef} className="tc__pin-wrap">
         <div ref={trackRef} className="tc__track">
-          {CARDS.map((card) => (
-            <div key={card.id} className="tc__card">
+          {CARDS.map((card, i) => (
+            <div
+              key={card.id}
+              ref={(el) => (cardRefs.current[i] = el)}
+              className="tc__card"
+              style={{ '--card-accent': card.accent }}
+            >
+              {/* Glow ring shown only when card is "active" / centered */}
+              <div className="tc__card-glow" />
+
               {/* Image */}
               <div className="tc__image-wrap">
                 <img
@@ -212,7 +291,8 @@ export default function ThemeCards() {
                   className="tc__image-overlay"
                   style={{ '--card-accent': card.accent }}
                 />
-               
+                
+                <span className="tc__index-badge">{String(i + 1).padStart(2, '0')}</span>
               </div>
 
               {/* Content */}
@@ -260,9 +340,15 @@ export default function ThemeCards() {
           ))}
         </div>
 
-        {/* Scroll progress hint */}
-        <div className="tc__scroll-hint">
-          
+        {/* Scroll progress bar + counter */}
+        <div className="tc__progress">
+          <div className="tc__progress-track">
+            <div ref={progressFillRef} className="tc__progress-fill" />
+          </div>
+          <div className="tc__progress-meta">
+            <span ref={progressLabelRef} className="tc__progress-count">01 / 09</span>
+            
+          </div>
         </div>
       </div>
     </section>
